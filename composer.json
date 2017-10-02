@@ -1,7 +1,7 @@
 {
   "name": "sinri/excelxsql",
   "description": "turn excel to db and query with sql",
-  "type": "project",
+  "type": "library",
   "license": "GPLv3",
   "authors": [
     {
