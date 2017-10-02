@@ -19,10 +19,10 @@ $ESA->loadSheetWithTypeDefinition(
     __DIR__ . '/io/sample_input.xlsx',
     0,
     [
-        "rec_id" => "INT",
-        "name" => "TEXT",
-        "value" => "NUMERIC",
-        "date" => "TEXT",
+        "rec_id" => \sinri\excelxsql\ExcelAgent\ExcelSqliteAgent::FIELD_TYPE_INTEGER,
+        "name" => \sinri\excelxsql\ExcelAgent\ExcelSqliteAgent::FIELD_TYPE_TEXT,
+        "value" => \sinri\excelxsql\ExcelAgent\ExcelSqliteAgent::FIELD_TYPE_NUMERIC,
+        "date" => \sinri\excelxsql\ExcelAgent\ExcelSqliteAgent::FIELD_TYPE_TEXT,
     ],
     false,
     false
@@ -32,9 +32,9 @@ $ESA->loadSheetWithTypeDefinition(
     __DIR__ . '/io/sample_input.xlsx',
     1,
     [
-        "address_id" => "INT",
-        "name" => "TEXT",
-        "address" => "TEXT",
+        "address_id" => \sinri\excelxsql\ExcelAgent\ExcelSqliteAgent::FIELD_TYPE_INTEGER,
+        "name" => \sinri\excelxsql\ExcelAgent\ExcelSqliteAgent::FIELD_TYPE_TEXT,
+        "address" => \sinri\excelxsql\ExcelAgent\ExcelSqliteAgent::FIELD_TYPE_TEXT,
     ],
     false,
     false
