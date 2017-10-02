@@ -12,5 +12,8 @@
   "minimum-stability": "stable",
   "require": {
     "box/spout": "^2.7"
+  },
+  "autoload": {
+    "files": "autoload.php"
   }
 }
