@@ -95,7 +95,7 @@ class ExcelSqliteAgent
                     $sql .= implode(',', $x);
                     $sql .= ")";
                 }
-                echo $sql . PHP_EOL;
+                //echo $sql . PHP_EOL;
                 $done = $this->db->safeExecute($sql, $values);
                 if (!$done) {
                     throw new \Exception("cannot run sql: " . $sql);
@@ -163,7 +163,7 @@ class ExcelSqliteAgent
                     $sql .= implode(',', $x);
                     $sql .= ")";
                 }
-                echo $sql . PHP_EOL;
+                //echo $sql . PHP_EOL;
                 $done = $this->db->safeExecute($sql, $values);
                 if (!$done) {
                     throw new \Exception("cannot run sql: " . $sql);
@@ -231,7 +231,7 @@ class ExcelSqliteAgent
                     $sql .= implode(',', $x);
                     $sql .= ")";
                 }
-                echo $sql . PHP_EOL;
+                //echo $sql . PHP_EOL;
                 $done = $this->db->safeExecute($sql, $values);
                 if (!$done) {
                     throw new \Exception("cannot run sql: " . $sql);
