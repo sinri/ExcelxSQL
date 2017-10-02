@@ -17,3 +17,9 @@ Note:
 1. Prepare the sqlite3 database file. As default memory embedded database instance might be a waste of memory, you may determine a file.
 1. Use a proper load method to load. For almost situations, `loadSheetWithTypeDefinition` works best.
 1. You may need to output as xlsx file. Note currently only one sheet might be generated. 
+
+## Donate
+
+You can donate through this alipay account.
+
+![http://www.everstray.com/resources/img/AlipayUkanokan258.png](http://www.everstray.com/resources/img/AlipayUkanokan258.png)
