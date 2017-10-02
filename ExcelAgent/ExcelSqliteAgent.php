@@ -18,6 +18,12 @@ use SQLite3Result;
 
 class ExcelSqliteAgent
 {
+    const FIELD_TYPE_TEXT = "TEXT";
+    const FIELD_TYPE_NUMERIC = "NUMERIC";
+    const FIELD_TYPE_INTEGER = "INTEGER";
+    const FIELD_TYPE_REAL = "REAL";
+    const FIELD_TYPE_NONE = "NONE";
+
     protected $db;
 
     /**
@@ -66,14 +72,14 @@ class ExcelSqliteAgent
             }
             $fields = [];
             foreach ($sheet->getRowIterator() as $row_index => $row) {
-                echo "[{$row_index}]" . PHP_EOL;
+                //echo "[{$row_index}]" . PHP_EOL;
                 $values = [];
                 if ($row_index == 1) {
                     // title_row, build the virtual table
                     $fields_with_type = [];
                     foreach ($row as $item) {
                         $fields[] = $item;
-                        $fields_with_type[] = $item . " TEXT";
+                        $fields_with_type[] = $item . " " . self::FIELD_TYPE_TEXT;
                     }
                     $sql = "create table {$prefix}_{$sheet->getName()} (";
                     $sql .= implode(",", $fields_with_type);
@@ -134,14 +140,14 @@ class ExcelSqliteAgent
             }
             $fields = [];
             foreach ($sheet->getRowIterator() as $row_index => $row) {
-                echo "[{$row_index}]" . PHP_EOL;
+                //echo "[{$row_index}]" . PHP_EOL;
                 $values = [];
                 if ($row_index == 1) {
                     // title_row, build the virtual table
                     $fields_with_type = [];
                     foreach ($row as $field_index => $item) {
                         $fields[] = "col_" . $field_index;
-                        $fields_with_type[] = "col_" . $field_index . " TEXT";
+                        $fields_with_type[] = "col_" . $field_index . " " . self::FIELD_TYPE_TEXT;
                     }
                     $sql = "create table {$prefix}_sheet_{$sheet->getIndex()} (";
                     $sql .= implode(",", $fields_with_type);
@@ -199,8 +205,9 @@ class ExcelSqliteAgent
             $tableName = ($useIndexTableName ? "{$prefix}_sheet_{$sheet->getIndex()}" : "{$prefix}_{$sheet->getName()}");
 
             $fields = [];
+            $field_type_dict = [];
             foreach ($sheet->getRowIterator() as $row_index => $row) {
-                echo "[{$row_index}]" . PHP_EOL;
+                //echo "[{$row_index}]" . PHP_EOL;
                 $values = [];
                 if ($row_index == 1) {
                     // title_row, build the virtual table
@@ -208,7 +215,8 @@ class ExcelSqliteAgent
                     foreach ($row as $field_index => $item) {
                         $field_name = $useIndexFieldName ? ("col_" . $field_index) : $item;
                         $fields[] = $field_name;
-                        $field_type = isset($fieldDefinition[$item]) ? $fieldDefinition[$item] : "TEXT";
+                        $field_type = isset($fieldDefinition[$item]) ? $fieldDefinition[$item] : self::FIELD_TYPE_TEXT;
+                        $field_type_dict[] = $field_type;
                         $fields_with_type[] = $field_name . " " . $field_type;
                     }
                     $sql = "create table {$tableName} (";
@@ -225,6 +233,16 @@ class ExcelSqliteAgent
                         $this_value = isset($row[$i]) ? $row[$i] : '';
                         if (is_a($this_value, DateTime::class)) {
                             $this_value = $this_value->format('Y-m-d H:i:s');
+                        } elseif (in_array($field_type_dict[$i], [
+                            self::FIELD_TYPE_INTEGER, self::FIELD_TYPE_NUMERIC, self::FIELD_TYPE_REAL
+                        ])) {
+                            $old_value = $this_value;
+                            if (empty($this_value)) {
+                                $this_value = 0;
+                            } else {
+                                $this_value = str_replace(',', '', $this_value);
+                                //echo " fix: " . $old_value . " -> " . $this_value . PHP_EOL;
+                            }
                         }
                         $values[$value_key] = $this_value;
                     }
