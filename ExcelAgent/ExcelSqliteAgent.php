@@ -12,6 +12,7 @@ use Box\Spout\Common\Helper\GlobalFunctionsHelper;
 use Box\Spout\Reader\XLSX\Reader;
 use Box\Spout\Reader\XLSX\Sheet;
 use Box\Spout\Writer\XLSX\Writer;
+use DateTime;
 use sinri\excelxsql\SQLite\LibSqlite3;
 use SQLite3Result;
 
@@ -47,7 +48,7 @@ class ExcelSqliteAgent
     {
         $reader = new Reader();
         $reader->setGlobalFunctionsHelper(new GlobalFunctionsHelper());
-        $reader->setShouldFormatDates(true);
+        $reader->setShouldFormatDates(false);
         $reader->open($xlsxFilePath);
 
         foreach ($reader->getSheetIterator() as $sheet) {
@@ -85,7 +86,11 @@ class ExcelSqliteAgent
                     for ($i = 0; $i < count($fields); $i++) {
                         $value_key = ":" . $fields[$i];
                         $x[] = $value_key;
-                        $values[$value_key] = isset($row[$i]) ? $row[$i] : '';
+                        $this_value = isset($row[$i]) ? $row[$i] : '';
+                        if (is_a($this_value, DateTime::class)) {
+                            $this_value = $this_value->format('Y-m-d H:i:s');
+                        }
+                        $values[$value_key] = $this_value;
                     }
                     $sql .= implode(',', $x);
                     $sql .= ")";
@@ -111,7 +116,7 @@ class ExcelSqliteAgent
         $reader = new Reader();
         $reader->setGlobalFunctionsHelper(new
         GlobalFunctionsHelper());
-        $reader->setShouldFormatDates(true);
+        $reader->setShouldFormatDates(false);
         $reader->open($xlsxFilePath);
 
         foreach ($reader->getSheetIterator() as $sheet) {
@@ -149,7 +154,11 @@ class ExcelSqliteAgent
                     for ($i = 0; $i < count($fields); $i++) {
                         $value_key = ":" . $fields[$i];
                         $x[] = $value_key;
-                        $values[$value_key] = isset($row[$i]) ? $row[$i] : '';
+                        $this_value = isset($row[$i]) ? $row[$i] : '';
+                        if (is_a($this_value, DateTime::class)) {
+                            $this_value = $this_value->format('Y-m-d H:i:s');
+                        }
+                        $values[$value_key] = $this_value;
                     }
                     $sql .= implode(',', $x);
                     $sql .= ")";
@@ -178,7 +187,7 @@ class ExcelSqliteAgent
         $reader = new Reader();
         $reader->setGlobalFunctionsHelper(new
         GlobalFunctionsHelper());
-        $reader->setShouldFormatDates(true);
+        $reader->setShouldFormatDates(false);
         $reader->open($xlsxFilePath);
 
         foreach ($reader->getSheetIterator() as $sheet) {
@@ -213,7 +222,11 @@ class ExcelSqliteAgent
                     for ($i = 0; $i < count($fields); $i++) {
                         $value_key = ":" . $fields[$i];
                         $x[] = $value_key;
-                        $values[$value_key] = isset($row[$i]) ? $row[$i] : '';
+                        $this_value = isset($row[$i]) ? $row[$i] : '';
+                        if (is_a($this_value, DateTime::class)) {
+                            $this_value = $this_value->format('Y-m-d H:i:s');
+                        }
+                        $values[$value_key] = $this_value;
                     }
                     $sql .= implode(',', $x);
                     $sql .= ")";
